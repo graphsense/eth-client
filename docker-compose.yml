@@ -1,0 +1,22 @@
+version: "3.5"
+
+services:
+
+  ethereum-client:
+    image: geth
+    container_name: geth
+    hostname: geth
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    volumes:
+      - ./data/:/home/dockeruser/.ethereum
+    networks:
+      - graphsense-net
+    ports:
+      - 8545:8545
+    restart: always
+
+networks:
+  graphsense-net:
+    name: graphsense-global-net

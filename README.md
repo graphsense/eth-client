@@ -19,7 +19,7 @@ settings a Docker Compose override file can be used, e.g.
 
 ```
 > cat docker-compose.override.yml
-version: "3.1"
+version: "3.5"
 
 services:
   zcash-client:

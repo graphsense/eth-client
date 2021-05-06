@@ -22,7 +22,7 @@ settings a Docker Compose override file can be used, e.g.
 version: "3.5"
 
 services:
-  zcash-client:
+  ethereum-client:
     volumes:
       - /var/data/graphsense/clients/eth:/home/dockeruser/.ethereum
 ```
@@ -31,7 +31,7 @@ The data directory on the host system must be writable by user `dockeruser`.
 
 ## Usage
 
-Building the docker container (the Zcash is version is specified in the
+Building the docker container (the `geth` is version is specified in the
 `Dockerfile`):
 
     docker-compose build

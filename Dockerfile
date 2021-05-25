@@ -6,4 +6,4 @@ RUN apk --no-cache add shadow && \
     chown dockeruser /home/dockeruser
 USER dockeruser
 EXPOSE 8545 8546 8547 30303 30303/udp
-ENTRYPOINT ["geth", "--syncmode", "full", "--rpc", "--rpcaddr", "0.0.0.0"]
+ENTRYPOINT ["geth", "--syncmode", "full", "--http", "--http.addr", "0.0.0.0"]

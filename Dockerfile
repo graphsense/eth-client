@@ -1,7 +1,9 @@
 FROM ethereum/client-go:v1.10.2
 
+ARG UID=10000
+
 RUN apk --no-cache add shadow && \
-    useradd -r -u 10000 dockeruser && \
+    useradd -r -u $UID dockeruser && \
     mkdir /home/dockeruser && \
     chown dockeruser /home/dockeruser
 USER dockeruser

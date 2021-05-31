@@ -1,4 +1,4 @@
-FROM ethereum/client-go:v1.10.2
+FROM ethereum/client-go:v1.10.3
 
 ARG UID=10000
 

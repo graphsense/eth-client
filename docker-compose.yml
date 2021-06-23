@@ -2,19 +2,17 @@ version: "3.5"
 
 services:
 
-  ethereum-client:
-    image: geth
-    container_name: geth
-    hostname: geth
+  openethereum-client:
     build:
       context: .
-      dockerfile: ./Dockerfile
     volumes:
-      - ./data/:/home/dockeruser/.ethereum
+      - /var/data/ssd/openethereum:/home/dockeruser/openethereum
+      - ./config.toml:/home/dockeruser/.local/share/io.parity.ethereum/config.toml
     networks:
       - graphsense-net
     ports:
-      - 8545:8545
+      - 192.168.243.2:18545:8545
+      - 33303:30303
     restart: always
 
 networks:

@@ -6,13 +6,13 @@ services:
     build:
       context: .
     volumes:
-      - /var/data/ssd/openethereum:/home/dockeruser/openethereum
+      - ./data:/home/dockeruser/openethereum
       - ./config.toml:/home/dockeruser/.local/share/io.parity.ethereum/config.toml
     networks:
       - graphsense-net
     ports:
-      - 192.168.243.2:18545:8545
-      - 33303:30303
+      - 8545:8545
+      - 30303:30303
     restart: always
 
 networks:

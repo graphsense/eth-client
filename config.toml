@@ -1,0 +1,49 @@
+# This config should be placed in following path:
+#   ~/.local/share/io.parity.ethereum/config.toml
+
+[parity]
+# Parity continously syncs the chain
+mode = "active"
+# Blockchain and settings will be stored in /home/dockeruser/openethereum.
+base_path = "/home/dockeruser/openethereum"
+
+[network]
+# Parity will sync by downloading latest state first. Node will be operational in couple minutes.
+warp = false
+
+
+[ipc]
+# Only selected APIs will be exposed over this interface.
+apis = ["web3", "eth", "pubsub", "net", "parity", "parity_pubsub", "traces", "rpc"]
+
+[rpc]
+#  JSON-RPC will be listening for connections on IP all.
+interface = "all"
+# Threads for handling incoming connections for HTTP JSON-RPC server.
+server_threads = 25
+# Specify maximum size for HTTP JSON-RPC requests in megabytes.
+max_payload = 200
+# Only selected APIs will be exposed over this interface.
+apis = ["web3", "eth", "pubsub", "net", "parity", "parity_pubsub", "traces", "rpc"]
+
+[secretstore]
+# You won't be able to encrypt and decrypt secrets.
+disable = true
+
+[footprint]
+# Compute and Store tracing data. (Enables trace_* APIs).
+tracing = "on"
+# Prune old state data. Maintains journal overlay - fast but extra 50MB of memory used.
+pruning = "fast"
+# Disable Fat DB.
+fat_db = "off"
+# Number of threads will vary depending on the workload. Not guaranteed to be faster.
+scale_verifiers = true
+# If defined will never use more then 4096MB for all caches. (Overrides other cache settings).
+cache_size = 4096
+
+[misc]
+# Logs will be stored at /home/openethereum/openethereum.log.
+log_file = "/home/dockeruser/openethereum/openethereum.log"
+# Disables colors in logs.
+color = false

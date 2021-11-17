@@ -24,7 +24,7 @@ version: "3.5"
 services:
   ethereum-client:
     volumes:
-      - /var/data/graphsense/clients/eth:/home/dockeruser/.ethereum
+      - /var/data/graphsense/clients/eth:/home/dockeruser/ethereum
 ```
 
 The data directory on the host system must be writable by user `dockeruser`.

@@ -1,4 +1,4 @@
-FROM openethereum/openethereum:v3.2.6
+FROM openethereum/openethereum:v3.3.0-rc.15
 
 ARG UID=10000
 

@@ -1,11 +1,13 @@
-FROM ethereum/client-go:v1.10.3
+FROM openethereum/openethereum:v3.2.6
 
 ARG UID=10000
 
-RUN apk --no-cache add shadow && \
-    useradd -r -u $UID dockeruser && \
-    mkdir /home/dockeruser && \
-    chown dockeruser /home/dockeruser
+USER root
+RUN adduser --system --home /home/dockeruser --uid $UID dockeruser
+WORKDIR /home/dockeruser
 USER dockeruser
-EXPOSE 8545 8546 8547 30303 30303/udp
-ENTRYPOINT ["geth", "--syncmode", "full", "--http", "--http.addr", "0.0.0.0"]
+#      secret
+#      store     ui   rpc  ws   listener  discovery
+#      ↓         ↓    ↓    ↓         ↓         ↓
+EXPOSE 8082 8083 8180 8545 8546 30303/tcp 30303/udp
+ENTRYPOINT ["/home/openethereum/openethereum", "--can-restart"]

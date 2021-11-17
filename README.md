@@ -31,7 +31,7 @@ The data directory on the host system must be writable by user `dockeruser`.
 
 ## Usage
 
-Building the docker container (the `geth` is version is specified in the
+Building the docker container (the `OpenEthereum` version is specified in the
 `Dockerfile`):
 
     docker-compose build

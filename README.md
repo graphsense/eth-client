@@ -14,7 +14,7 @@ Ensure that a user `dockeruser` with ID `10000` exists on your local system.
 
 Client data is persisted on the host machine using a Docker volume.
 In the default setting the local directory `./data` is mapped to
-to `/home/dockeruser/.ethereum` inside the container. To override these
+to `/home/dockeruser/openethereum` inside the container. To override these
 settings a Docker Compose override file can be used, e.g.
 
 ```
@@ -24,7 +24,7 @@ version: "3.5"
 services:
   ethereum-client:
     volumes:
-      - /var/data/graphsense/clients/eth:/home/dockeruser/ethereum
+      - /var/data/graphsense/clients/eth:/home/dockeruser/openethereum
 ```
 
 The data directory on the host system must be writable by user `dockeruser`.

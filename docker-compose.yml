@@ -2,18 +2,34 @@ version: "3.5"
 
 services:
 
-  openethereum-client:
+  erigon-client:
     build:
       context: .
+    command: erigon --private.api.addr=0.0.0.0:9090 --verbosity 3
     volumes:
-      - ./data:/home/dockeruser/openethereum
-      - ./config.toml:/home/dockeruser/.local/share/io.parity.ethereum/config.toml
+      - ${DATA_DIR}:/home/dockeruser/.local/share/erigon
+    ports:
+      - "38303:30303/tcp"
+      - "38303:30303/udp"
+      - "38304:30304/tcp"
+      - "38304:30304/udp"
     networks:
       - graphsense-net
+    restart: unless-stopped
+
+
+  erigon-rpcdaemon:
+    build:
+      context: .
+    command: rpcdaemon --datadir=/home/dockeruser/.local/share/erigon --private.api.addr=erigon-client:9090 --http.addr=0.0.0.0 --http.vhosts=* --http.corsdomain=* --http.api=eth,debug,net,trace
+    pid: service:erigon-client  # use erigon's PID namespace. It's required to open Erigon's DB from another process (RPCDaemon local-mode)
+    volumes:
+      - ${DATA_DIR}:/home/dockeruser/.local/share/erigon
     ports:
-      - 8545:8545
-      - 30303:30303
-    restart: always
+      - "8545:8545"
+    networks:
+      - graphsense-net
+    restart: unless-stopped
 
 networks:
   graphsense-net:

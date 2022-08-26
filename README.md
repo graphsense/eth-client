@@ -1,6 +1,6 @@
 # Ethereum Docker container
 
-A Docker container running [Ethereum][ethereum] as a service and
+A Docker container running [Erigon][erigon] as a service and
 exposing the REST API.
 
 ## Prerequisites
@@ -12,27 +12,14 @@ Ensure that a user `dockeruser` with ID `10000` exists on your local system.
 
 ## Configuration
 
-Client data is persisted on the host machine using a Docker volume.
-In the default setting the local directory `./data` is mapped to
-to `/home/dockeruser/openethereum` inside the container. To override these
-settings a Docker Compose override file can be used, e.g.
-
-```
-> cat docker-compose.override.yml
-version: "3.5"
-
-services:
-  ethereum-client:
-    volumes:
-      - /var/data/graphsense/clients/eth:/home/dockeruser/openethereum
-```
-
-The data directory on the host system must be writable by user `dockeruser`.
+Copy `env.template` to `.env` and set the `DATA_DIR` variable.
+Client data is persisted to `DATA_DIR` on the host machine using
+a Docker volume. The data directory on the host system must be writable
+by user `dockeruser`.
 
 ## Usage
 
-Building the docker container (the `OpenEthereum` version is specified in the
-`Dockerfile`):
+Building the docker container:
 
     docker-compose build
 
@@ -45,5 +32,5 @@ Showing log information:
     docker-compose logs
 
 
-[ethereum]: https://ethereum.org
+[erigon]: https://github.com/ledgerwatch/erigon
 [docker]: https://www.docker.com

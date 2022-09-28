@@ -5,18 +5,19 @@ services:
   erigon-client:
     build:
       context: .
-    command: erigon --private.api.addr=0.0.0.0:9090 --verbosity 3
+    command: erigon --private.api.addr=0.0.0.0:9090 --verbosity 3 --override.terminaltotaldifficulty=0xc70d808a128d7380000 --http.addr=0.0.0.0 --http.vhosts=* --http.corsdomain=* --authrpc.addr="erigon-client" --authrpc.vhosts="erigon-client" --authrpc.port=8551 --http.api=eth,erigon,engine,debug,trace
+    hostname: erigon-client
     volumes:
-      - ${DATA_DIR}:/home/dockeruser/.local/share/erigon
+      - ${EL_DATA_DIR}:/home/dockeruser/.local/share/erigon
     ports:
       - "38303:30303/tcp"
       - "38303:30303/udp"
       - "38304:30304/tcp"
       - "38304:30304/udp"
+      - "8551:8551"
     networks:
       - graphsense-net
     restart: unless-stopped
-
 
   erigon-rpcdaemon:
     build:
@@ -24,11 +25,27 @@ services:
     command: rpcdaemon --datadir=/home/dockeruser/.local/share/erigon --private.api.addr=erigon-client:9090 --http.addr=0.0.0.0 --http.vhosts=* --http.corsdomain=* --http.api=eth,debug,net,trace
     pid: service:erigon-client  # use erigon's PID namespace. It's required to open Erigon's DB from another process (RPCDaemon local-mode)
     volumes:
-      - ${DATA_DIR}:/home/dockeruser/.local/share/erigon
+      - ${EL_DATA_DIR}:/home/dockeruser/.local/share/erigon
     ports:
       - "8545:8545"
     networks:
       - graphsense-net
+    restart: unless-stopped
+
+  beacon-node:
+    image: gcr.io/prysmaticlabs/prysm/beacon-chain:latest
+    command: --execution-endpoint=http://erigon-client:8551 --jwt-secret=/tmp/jwt.hex --datadir=/data --accept-terms-of-use
+    volumes:
+      - ${CL_DATA_DIR}:/data
+      - ${EL_DATA_DIR}/jwt.hex:/tmp/jwt.hex
+    ports:
+      - 4000:4000
+      - 13000:13000
+      - 12000:12000/udp
+    networks:
+      - graphsense-net
+    depends_on:
+      - erigon-client
     restart: unless-stopped
 
 networks:

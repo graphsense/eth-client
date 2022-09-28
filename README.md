@@ -1,7 +1,7 @@
 # Ethereum Docker container
 
-A Docker container running [Erigon][erigon] as a service and
-exposing the REST API.
+Docker containers running [Erigon][erigon] (execution layer) and
+[Prysm][prysm] (consensus layer) as a service.
 
 ## Prerequisites
 
@@ -33,4 +33,5 @@ Showing log information:
 
 
 [erigon]: https://github.com/ledgerwatch/erigon
+[prysm]: https://github.com/prysmaticlabs/prysm
 [docker]: https://www.docker.com

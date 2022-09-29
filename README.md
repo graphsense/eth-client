@@ -12,9 +12,9 @@ Ensure that a user `dockeruser` with ID `10000` exists on your local system.
 
 ## Configuration
 
-Copy `env.template` to `.env` and set the `DATA_DIR` variable.
-Client data is persisted to `DATA_DIR` on the host machine using
-a Docker volume. The data directory on the host system must be writable
+Copy `env.template` to `.env` and set the `CL_DATA_DIR` and `EL_DATA_DIR`
+variables. All data is persisted on the host machine using Docker volumes.
+The data directory `EL_DATA_DIR` on the host system must be writable
 by user `dockeruser`.
 
 ## Usage

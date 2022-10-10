@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [22.10] - 2022-10-10
+### Added
+- Added consensus layer client (prysm)
+
 ## [1.0.1] - 2022-08-26
 ### Changed
 - Switched to Erigon Ethereum client

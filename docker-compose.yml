@@ -22,10 +22,11 @@ services:
   erigon-rpcdaemon:
     build:
       context: .
-    command: rpcdaemon --datadir=/home/dockeruser/.local/share/erigon --private.api.addr=erigon-client:9090 --http.addr=0.0.0.0 --http.vhosts=* --http.corsdomain=* --http.api=eth,debug,net,trace
+    command: rpcdaemon --datadir=/home/dockeruser/.local/share/erigon --private.api.addr=erigon-client:9090 --http.addr=0.0.0.0 --http.vhosts=* --http.corsdomain=* --http.api=eth,debug,net,trace --rpc.accessList=/home/dockeruser/rules.json
     pid: service:erigon-client  # use erigon's PID namespace. It's required to open Erigon's DB from another process (RPCDaemon local-mode)
     volumes:
       - ${EL_DATA_DIR}:/home/dockeruser/.local/share/erigon
+      - ./rules.json:/home/dockeruser/rules.json
     ports:
       - "8545:8545"
     networks:

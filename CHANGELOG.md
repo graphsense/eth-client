@@ -3,8 +3,9 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
-## [23.01/1.3.0] - 2023-12-30
+## [23.01/1.3.0] - 2023-01-30
 ### Added
+- bumped erigon version v2022.09.03 -> 2.32.0
 - standard dev Makefile
 - add rules.json to configure allowed rpc apis
 

@@ -1,4 +1,4 @@
-FROM thorax/erigon:v2022.09.03
+FROM thorax/erigon:2.32.0
 
 ARG UID=10000
 

@@ -1,21 +1,29 @@
 # Ethereum Docker container
 
-Docker containers running [Erigon][erigon] (execution layer) and
-[Prysm][prysm] (consensus layer) as a service.
+Docker containers running [Erigon][erigon] (execution layer with the internal
+consensus layer) as a service.
+The Docker Compose file is based on
+https://github.com/ledgerwatch/erigon/blob/devel/docker-compose.yml
 
 ## Prerequisites
 
 - [Docker][docker], see e.g. https://docs.docker.com/engine/install/
 - Docker Compose: https://docs.docker.com/compose/install/
 
-Ensure that a user `dockeruser` with ID `10000` exists on your local system.
+Ensure that a user UID `10000` exists on your local system.
 
 ## Configuration
 
-Copy `env.template` to `.env` and set the `CL_DATA_DIR` and `EL_DATA_DIR`
-variables. All data is persisted on the host machine using Docker volumes.
-The data directory `EL_DATA_DIR` on the host system must be writable
-by user `dockeruser`.
+Copy `env.template` to `.env` and update the parameters. All data is persisted
+on the host machine using Docker volumes (`XDG_DATA_HOME`). Create a directory
+`erigon` in `$XDG_DATA_HOME` and set permissions to `$DOCKER_UID` and
+`$DOCKER_GID`, respectively:
+
+```
+# change to $XDG_DATA_HOME:
+mkdir erigon
+chown 10000:1000 erigon
+```
 
 ## Usage
 
@@ -33,5 +41,4 @@ Showing log information:
 
 
 [erigon]: https://github.com/ledgerwatch/erigon
-[prysm]: https://github.com/prysmaticlabs/prysm
 [docker]: https://www.docker.com

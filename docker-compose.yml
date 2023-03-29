@@ -1,54 +1,68 @@
-version: "3.5"
+# Erigon by default is "all in one binary" solution, but it's possible start TxPool as separated processes.
+# Same true about: JSON RPC layer (RPCDaemon), p2p layer (Sentry), history download layer (Downloader), consensus.
+# Don't start services as separated processes unless you have clear reason for it: resource limiting, scale, replace by your own implementation, security.
+# This file is an example: how to start Erigon's services as separated processes.
+
+# Default: --datadir=/home/erigon/.local/share/erigon
+# Default UID: 1000
+# Default GID: 1000
+# Ports: `9090` execution engine (private api), `9091` sentry, `9092` consensus engine, `9093` snapshot downloader, `9094` TxPool
+# Ports: `8545` json rpc, `8551` consensus json rpc, `30303` eth p2p protocol, `42069` bittorrent protocol,
+
+# Connections: erigon -> (sentries, downloader), rpcdaemon -> (erigon, txpool), txpool -> erigon
+
+version: '2.2'
+
+# Basic erigon's service
+x-erigon-service: &default-erigon-service
+  image: thorax/erigon:${TAG:-latest}
+  pid: service:erigon # Use erigon's PID namespace. It's required to open Erigon's DB from another process (RPCDaemon local-mode)
+  volumes_from: [ erigon ]
+  restart: unless-stopped
+  mem_swappiness: 0
+  user: ${DOCKER_UID:-1000}:${DOCKER_GID:-1000}
 
 services:
-
-  erigon-client:
+  erigon:
+    image: thorax/erigon:${TAG:-latest}
     build:
+      args:
+        UID: ${DOCKER_UID:-1000}
+        GID: ${DOCKER_GID:-1000}
       context: .
-    command: erigon --private.api.addr=0.0.0.0:9090 --verbosity 3 --override.terminaltotaldifficulty=0xc70d808a128d7380000 --http.addr=0.0.0.0 --http.vhosts=* --http.corsdomain=* --authrpc.addr="erigon-client" --authrpc.vhosts="erigon-client" --authrpc.port=8551 --http.api=eth,erigon,engine,debug,trace
-    hostname: erigon-client
+    command: |
+      ${ERIGON_FLAGS-} --private.api.addr=0.0.0.0:9090
+      --sentry.api.addr=sentry:9091 --downloader.api.addr=downloader:9093 --txpool.disable
+      --metrics --metrics.addr=0.0.0.0 --metrics.port=6060 --pprof --pprof.addr=0.0.0.0 --pprof.port=6061
+      --authrpc.jwtsecret=/home/erigon/.local/share/erigon/jwt.hex --datadir=/home/erigon/.local/share/erigon
+    ports: [ "8551:8551" ]
     volumes:
-      - ${EL_DATA_DIR}:/home/dockeruser/.local/share/erigon
-    ports:
-      - "38303:30303/tcp"
-      - "38303:30303/udp"
-      - "38304:30304/tcp"
-      - "38304:30304/udp"
-      - "8551:8551"
-    networks:
-      - graphsense-net
+      # It's ok to mount sub-dirs of "datadir" to different drives
+      - ${XDG_DATA_HOME:-~/.local/share}/erigon:/home/erigon/.local/share/erigon
     restart: unless-stopped
+    mem_swappiness: 0
 
-  erigon-rpcdaemon:
-    build:
-      context: .
-    command: rpcdaemon --datadir=/home/dockeruser/.local/share/erigon --private.api.addr=erigon-client:9090 --http.addr=0.0.0.0 --http.vhosts=* --http.corsdomain=* --http.api=eth,debug,net,trace --rpc.accessList=/home/dockeruser/rules.json
-    pid: service:erigon-client  # use erigon's PID namespace. It's required to open Erigon's DB from another process (RPCDaemon local-mode)
-    volumes:
-      - ${EL_DATA_DIR}:/home/dockeruser/.local/share/erigon
-      - ./rules.json:/home/dockeruser/rules.json
-    ports:
-      - "8545:8545"
-    networks:
-      - graphsense-net
-    restart: unless-stopped
+  sentry:
+    <<: *default-erigon-service
+    entrypoint: sentry
+    command: ${SENTRY_FLAGS-} --sentry.api.addr=0.0.0.0:9091 --datadir=/home/erigon/.local/share/erigon
+    ports: [ "30303:30303/tcp", "30303:30303/udp" ]
 
-  beacon-node:
-    image: gcr.io/prysmaticlabs/prysm/beacon-chain:latest
-    command: --execution-endpoint=http://erigon-client:8551 --jwt-secret=/tmp/jwt.hex --datadir=/data --accept-terms-of-use
-    volumes:
-      - ${CL_DATA_DIR}:/data
-      - ${EL_DATA_DIR}/jwt.hex:/tmp/jwt.hex
-    ports:
-      - 4000:4000
-      - 13000:13000
-      - 12000:12000/udp
-    networks:
-      - graphsense-net
-    depends_on:
-      - erigon-client
-    restart: unless-stopped
+  downloader:
+    <<: *default-erigon-service
+    entrypoint: downloader
+    command: ${DOWNLOADER_FLAGS-} --downloader.api.addr=0.0.0.0:9093 --datadir=/home/erigon/.local/share/erigon
+    ports: [ "42069:42069/tcp", "42069:42069/udp" ]
 
-networks:
-  graphsense-net:
-    name: graphsense-global-net
+  txpool:
+    <<: *default-erigon-service
+    entrypoint: txpool
+    command: ${TXPOOL_FLAGS-} --private.api.addr=erigon:9090 --txpool.api.addr=0.0.0.0:9094 --sentry.api.addr=sentry:9091 --datadir=/home/erigon/.local/share/erigon
+
+  rpcdaemon:
+    <<: *default-erigon-service
+    entrypoint: rpcdaemon
+    command: |
+      ${RPCDAEMON_FLAGS-} --http.addr=0.0.0.0 --http.vhosts=* --http.corsdomain=* --ws
+      --private.api.addr=erigon:9090 --txpool.api.addr=txpool:9094 --datadir=/home/erigon/.local/share/erigon
+    ports: [ "8545:8545" ]

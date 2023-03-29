@@ -3,11 +3,18 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [23.03/1.4.0] - 2023-03-29
+### Changed
+- Bumped Erigon version to 2.42.0
+- Docker setup now based on Docker Compose file from Erigon repository
+### Removed
+- Removed `prysm` container, use internal CL instead
+
 ## [23.01/1.3.0] - 2023-01-30
 ### Added
-- bumped erigon version v2022.09.03 -> 2.32.0
-- standard dev Makefile
-- add rules.json to configure allowed rpc apis
+- Bumped Erigon version v2022.09.03 to 2.32.0
+- Standard dev Makefile
+- Add `rules.json` to configure allowed RPC APIs
 
 ## [22.11] - 2022-11-24
 

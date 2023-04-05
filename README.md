@@ -27,15 +27,11 @@ chown 10000:1000 erigon
 
 ## Usage
 
-Building the docker container:
-
-    docker-compose build
-
 Starting the container (in detached mode):
 
     docker-compose up -d
 
-Showing log information:
+Show log information:
 
     docker-compose logs
 

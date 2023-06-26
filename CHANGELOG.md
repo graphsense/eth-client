@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+
+## Unreleased
+### Changed
+- Bumped Erigon version to 2.47.0 (fixes bug no gaps in tx ids are allowed) [release notes](https://github.com/ledgerwatch/erigon/releases/tag/v2.47.0)
+
 ## [23.06/1.5.0] - 2023-06-12
 ### Changed
 - Bumped Erigon version to 2.45.1

@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [23.09/1.8.0] - 2023-09-20
+### Changed
+- Bumped Erigon version to 2.50.1
+
 ## [23.09/1.7.0] - 2023-09-20
 ### Changed
 - Bumped Erigon version to 2.49.2

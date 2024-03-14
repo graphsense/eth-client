@@ -3,7 +3,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
-## [24.01.0] - 2023-01-05
+## [24.03.0] - 2024-03-14
+### Changed
+- Bumped Erigon version to 2.58.2
+
+## [24.01.0] - 2024-01-05
 ### Changed
 - Bumped Erigon version to 2.55.1
 - retired semantic versions, new versions are based on vYEAR.MONTH.VERSION

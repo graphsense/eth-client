@@ -3,6 +3,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [24.11.0] - 2024-11-06
+### Changed
+- Bumped Erigon version to 2.60.10
+### Fixed
+- trace_block fails on block 0x24A931
+
 ## [24.07.0] - 2024-07-08
 ### Changed
 - Bumped Erigon version to 2.60.2

@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [24.12.0] - 2024-12-09
+### Changed
+- Bumped Erigon version to 3.0.0-alpha5
+
 ## [24.11.0] - 2024-11-06
 ### Changed
 - Bumped Erigon version to 2.60.10

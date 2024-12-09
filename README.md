@@ -2,8 +2,6 @@
 
 Docker containers running [Erigon][erigon] (execution layer with the internal
 consensus layer) as a service.
-The Docker Compose file is based on
-https://github.com/ledgerwatch/erigon/blob/devel/docker-compose.yml
 
 ## Prerequisites
 

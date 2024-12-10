@@ -1,6 +1,6 @@
 services:
   erigon:
-    image: thorax/erigon:v3.0.0-alpha5
+    image: erigontech/erigon:v3.0.0-alpha5
     #user: ${DOCKER_UID:-1000}:${DOCKER_GID:-1000}
     ports:
       - "8545:8545"
@@ -12,3 +12,4 @@ services:
       --http.addr=0.0.0.0
       --http.port=8545
       --http.api=eth,net,web3,debug,trace
+      --http.vhosts *

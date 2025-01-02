@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [25.01.0] - 2025-01-02
+### Changed
+- Bumped Erigon version to 3.0.0-alpha7
+
 ## [24.12.1] - 2024-12-10
 ### Changed
 - added --http.vhosts * to allow requests with any hostname

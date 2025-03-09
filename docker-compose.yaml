@@ -1,6 +1,6 @@
 services:
   erigon:
-    image: erigontech/erigon:v3.0.0-beta1
+    image: erigontech/erigon:v3.0.0-rc2
     #user: ${DOCKER_UID:-1000}:${DOCKER_GID:-1000}
     ports:
       - "8545:8545"

@@ -1,4 +1,13 @@
+
+# ⚠️ **Deprecation Warning**
+
+> **This project is deprecated!**
+>
+> Please use the official Erigon Docker containers ([erigontech/erigon](https://hub.docker.com/r/erigontech/erigon)) directly instead.
+
 # Ethereum Docker container
+
+
 
 Docker containers running [Erigon][erigon] (execution layer with the internal
 consensus layer) as a service.
